@@ -17,7 +17,7 @@ export default function HeroSection() {
   }>({ days: 0, hours: 0, minutes: 0, seconds: 0 })
 
   // Example Wedding Date
-  const weddingDate = new Date('2026-12-31T00:00:00')
+  const weddingDate = new Date('2026-10-31T00:00:00')
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -40,7 +40,7 @@ export default function HeroSection() {
   return (
     <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
       {/* Parallax Background */}
-      <motion.div 
+      <motion.div
         style={{ y: y1 }}
         className="absolute inset-0 z-0"
       >
@@ -55,14 +55,14 @@ export default function HeroSection() {
       </motion.div>
 
       {/* Content */}
-      <motion.div 
+      <motion.div
         style={{ opacity }}
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, ease: "easeOut" }}
         className="relative z-10 text-center text-white px-4"
       >
-        <motion.h2 
+        <motion.h2
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 1 }}
@@ -70,11 +70,11 @@ export default function HeroSection() {
         >
           Better Together
         </motion.h2>
-        
-        <motion.h1 
+
+        <motion.h1
           className="text-6xl md:text-9xl font-serif mb-8 text-white drop-shadow-2xl"
         >
-          Morayo <span className="text-brand-gold">&</span> Ade
+          MORAdekemi <span className="text-brand-gold">&</span> AYObami
         </motion.h1>
 
         {/* Countdown */}
@@ -89,13 +89,13 @@ export default function HeroSection() {
 
         {/* CTA Buttons */}
         <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
-          <button 
+          <button
             className="px-8 py-3 bg-brand-gold text-white rounded-full hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 font-medium tracking-wide"
             onClick={() => document.getElementById('rsvp')?.scrollIntoView({ behavior: 'smooth' })}
           >
             RSVP NOW
           </button>
-          <button 
+          <button
             className="px-8 py-3 glass text-white rounded-full hover:bg-white hover:text-brand-dark transition-all duration-300 transform hover:scale-105 font-medium tracking-wide"
             onClick={() => document.getElementById('story')?.scrollIntoView({ behavior: 'smooth' })}
           >
@@ -105,14 +105,14 @@ export default function HeroSection() {
       </motion.div>
 
       {/* Scroll Indicator */}
-      <motion.div 
+      <motion.div
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/60"
       >
         <span className="text-[10px] tracking-[0.2em] uppercase">Scroll</span>
         <div className="w-[1px] h-12 bg-white/20 relative">
-          <motion.div 
+          <motion.div
             animate={{ top: ['0%', '100%'], opacity: [0, 1, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
             className="absolute left-0 w-full h-4 bg-brand-gold"
