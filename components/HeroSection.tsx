@@ -72,7 +72,7 @@ export default function HeroSection() {
         </motion.h2>
 
         <motion.h1
-          className="text-6xl md:text-9xl font-serif mb-8 text-white drop-shadow-2xl"
+          className="text-4xl md:text-5xl font-serif mb-8 text-white drop-shadow-2xl"
         >
           MORAdekemi <span className="text-brand-gold">&</span> AYObami
         </motion.h1>
