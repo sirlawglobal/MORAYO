@@ -1,10 +1,7 @@
 import { PrismaClient } from '@prisma/client'
-import { PrismaMariaDb } from '@prisma/adapter-mariadb'
 
 const prismaClientSingleton = () => {
-  // Use the MariaDB adapter (compatible with MySQL) as required by Prisma 7
-  const adapter = new PrismaMariaDb(process.env.DATABASE_URL as string)
-  return new PrismaClient({ adapter })
+  return new PrismaClient()
 }
 
 declare global {

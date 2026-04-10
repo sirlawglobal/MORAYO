@@ -15,7 +15,7 @@ export default async function RSVPManagementPage() {
     console.error('RSVPs fetch failed:', error)
   }
 
-  async function removeRSVP(id: number) {
+  async function removeRSVP(id: string) {
     'use server'
     await deleteRSVP(id)
     revalidatePath('/dashboard/rsvps')
@@ -42,7 +42,7 @@ export default async function RSVPManagementPage() {
             </thead>
             <tbody className="divide-y divide-gray-50">
               {rsvps.length > 0 ? (
-                rsvps.map((rsvp: { id: number; name: string; email: string; phone: string; status: string; message: string | null; createdAt: Date }) => (
+                rsvps.map((rsvp: { id: string; name: string; email: string; phone: string; status: string; message: string | null; createdAt: Date }) => (
                   <tr key={rsvp.id} className="hover:bg-gray-50/80 transition-colors group">
                     <td className="px-6 py-6">
                       <p className="font-semibold text-gray-900">{rsvp.name}</p>

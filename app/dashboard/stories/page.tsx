@@ -8,7 +8,7 @@ import { Plus, Trash2, Edit2, Clock, X, Loader2, Save } from 'lucide-react'
 export const dynamic = 'force-dynamic'
 
 interface StoryItem {
-  id: number
+  id: string
   title: string
   description: string
   imageUrl?: string | null
@@ -48,7 +48,7 @@ export default function StoryManagementPage() {
     loadStories()
   }
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     if (confirm('Delete this story block?')) {
       await deleteStory(id)
       loadStories()

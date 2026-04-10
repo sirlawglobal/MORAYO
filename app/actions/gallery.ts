@@ -20,7 +20,7 @@ export async function addGalleryImage(formData: FormData) {
   revalidatePath('/dashboard/gallery')
 }
 
-export async function deleteGalleryImage(id: number) {
+export async function deleteGalleryImage(id: string) {
   await prisma.gallery.delete({ where: { id } })
   revalidatePath('/gallery')
   revalidatePath('/dashboard/gallery')

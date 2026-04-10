@@ -10,7 +10,7 @@ import { useEffect } from 'react'
 export const dynamic = 'force-dynamic'
 
 interface GalleryItem {
-  id: number
+  id: string
   imageUrl: string
   category: string
 }
@@ -32,7 +32,7 @@ export default function GalleryManagementPage() {
     setIsLoading(false)
   }
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this image?')) {
       await deleteGalleryImage(id)
       loadImages()

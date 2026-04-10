@@ -45,7 +45,7 @@ export default function HeroSection() {
         className="absolute inset-0 z-0"
       >
         <Image
-          src="/hero-bg.png"
+          src="/hero-bg.jpg"
           alt="Wedding Background"
           fill
           className="object-cover"

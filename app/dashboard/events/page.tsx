@@ -6,7 +6,7 @@ import { revalidatePath } from 'next/cache'
 export const dynamic = 'force-dynamic'
 
 export default async function EventsManagementPage() {
-  let events: { id: number; title: string; value: string }[] = []
+  let events: { id: string; title: string; value: string }[] = []
   try {
     events = await prisma.eventDetail.findMany()
   } catch (error) {
@@ -15,7 +15,7 @@ export default async function EventsManagementPage() {
 
   async function handleEventUpdate(formData: FormData) {
     'use server'
-    const id = Number(formData.get('id'))
+    const id = formData.get('id') as string
     const value = formData.get('value') as string
     await updateEventDetails(id, value)
     revalidatePath('/dashboard/events')
@@ -29,7 +29,7 @@ export default async function EventsManagementPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {events.length > 0 ? events.map((event: { id: number; title: string; value: string }) => (
+        {events.length > 0 ? events.map((event: { id: string; title: string; value: string }) => (
           <div key={event.id} className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
             <form action={handleEventUpdate} className="space-y-6">
                <input type="hidden" name="id" value={event.id} />

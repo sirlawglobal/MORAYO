@@ -28,7 +28,7 @@ export async function submitRSVP(formData: FormData) {
   return { success: true }
 }
 
-export async function deleteRSVP(id: number) {
+export async function deleteRSVP(id: string) {
   await prisma.rSVP.delete({ where: { id } })
   revalidatePath('/dashboard/rsvps')
 }
@@ -41,7 +41,7 @@ export async function getRSVPs() {
 
 // --- Event Detail Actions ---
 
-export async function updateEventDetails(id: number, value: string) {
+export async function updateEventDetails(id: string, value: string) {
   await prisma.eventDetail.update({
     where: { id },
     data: { value },
@@ -52,7 +52,7 @@ export async function updateEventDetails(id: number, value: string) {
 
 // --- Support Info Actions ---
 
-export async function updateSupportInfo(id: number, value: string) {
+export async function updateSupportInfo(id: string, value: string) {
   await prisma.supportInfo.update({
     where: { id },
     data: { value },

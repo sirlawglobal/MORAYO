@@ -6,7 +6,7 @@ import { revalidatePath } from 'next/cache'
 export const dynamic = 'force-dynamic'
 
 export default async function SupportManagementPage() {
-  let supports: { id: number; label: string; value: string }[] = []
+  let supports: { id: string; label: string; value: string }[] = []
   try {
     supports = await prisma.supportInfo.findMany()
   } catch (error) {
@@ -15,7 +15,7 @@ export default async function SupportManagementPage() {
 
   async function handleSupportUpdate(formData: FormData) {
     'use server'
-    const id = Number(formData.get('id'))
+    const id = formData.get('id') as string
     const value = formData.get('value') as string
     await updateSupportInfo(id, value)
     revalidatePath('/dashboard/support')
@@ -36,7 +36,7 @@ export default async function SupportManagementPage() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {supports.length > 0 ? supports.map((support: { id: number; label: string; value: string }) => (
+            {supports.length > 0 ? supports.map((support: { id: string; label: string; value: string }) => (
               <div key={support.id} className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
                 <form action={handleSupportUpdate} className="space-y-4">
                   <input type="hidden" name="id" value={support.id} />

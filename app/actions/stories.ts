@@ -24,7 +24,7 @@ export async function createStory(formData: FormData) {
   revalidatePath('/dashboard/stories')
 }
 
-export async function updateStory(id: number, formData: FormData) {
+export async function updateStory(id: string, formData: FormData) {
   const data = storySchema.parse({
     title: formData.get('title'),
     description: formData.get('description'),
@@ -40,7 +40,7 @@ export async function updateStory(id: number, formData: FormData) {
   revalidatePath('/dashboard/stories')
 }
 
-export async function deleteStory(id: number) {
+export async function deleteStory(id: string) {
   await prisma.story.delete({ where: { id } })
   revalidatePath('/')
   revalidatePath('/dashboard/stories')
