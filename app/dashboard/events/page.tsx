@@ -6,7 +6,7 @@ import { revalidatePath } from 'next/cache'
 export const dynamic = 'force-dynamic'
 
 export default async function EventsManagementPage() {
-  let events = []
+  let events: { id: number; title: string; value: string }[] = []
   try {
     events = await prisma.eventDetail.findMany()
   } catch (error) {

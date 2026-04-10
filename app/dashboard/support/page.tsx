@@ -6,7 +6,7 @@ import { revalidatePath } from 'next/cache'
 export const dynamic = 'force-dynamic'
 
 export default async function SupportManagementPage() {
-  let supports = []
+  let supports: { id: number; label: string; value: string }[] = []
   try {
     supports = await prisma.supportInfo.findMany()
   } catch (error) {
