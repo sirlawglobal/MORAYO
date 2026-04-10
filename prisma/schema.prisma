@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model Story {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String   @db.Text
+  imageUrl    String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model Gallery {
+  id        Int      @id @default(autoincrement())
+  imageUrl  String
+  category  String   @default("General")
+  createdAt DateTime @default(now())
+}
+
+model RSVP {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  phone     String
+  status    String   // e.g., "attending", "not_attending"
+  message   String?  @db.Text
+  createdAt DateTime @default(now())
+}
+
+model EventDetail {
+  id    Int    @id @default(autoincrement())
+  title String
+  value String @db.Text
+}
+
+model SupportInfo {
+  id    Int    @id @default(autoincrement())
+  label String
+  value String @db.Text
+}
