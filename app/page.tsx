@@ -5,6 +5,7 @@ import GalleryGrid from '@/components/GalleryGrid'
 import EventDetails from '@/components/EventDetails'
 import SupportSection from '@/components/SupportSection'
 import RSVPForm from '@/components/RSVPForm'
+import AutoPlayAudio from '@/components/AutoPlayAudio'
 import { Heart } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
@@ -28,6 +29,9 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-brand-cream">
+      {/* Auto-play Background Music */}
+      <AutoPlayAudio />
+
       {/* Hero Section */}
       <HeroSection />
 
