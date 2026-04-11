@@ -64,10 +64,10 @@ export default function HeroSection() {
         className="relative z-10 text-center text-white px-4"
       >
         <motion.div
-           initial={{ opacity: 0, scale: 0.8 }}
-           animate={{ opacity: 1, scale: 1 }}
-           transition={{ delay: 0.3, duration: 1 }}
-           className="mb-6 inline-block"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3, duration: 1 }}
+          className="mb-6 inline-block"
         >
           <span className="text-brand-lavender text-sm md:text-base font-medium tracking-[0.4em] uppercase">
             Celebrating the Union of
@@ -80,11 +80,11 @@ export default function HeroSection() {
           transition={{ delay: 0.6, duration: 1.2 }}
           className="text-5xl md:text-7xl font-serif mb-8 text-white drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)] leading-tight"
         >
-          MORAYO <span className="text-brand-gold italic serif">&</span> ADEBAMI
+          MORadekemi <span className="text-brand-gold italic serif">&</span> AYObami
         </motion.h1>
 
         {/* Countdown */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1, duration: 1 }}
