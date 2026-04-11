@@ -24,24 +24,33 @@ export async function login(prevState: any, formData: FormData) {
 
   const { email, password } = validatedFields.data
 
-  // 3. Find user in database
-  const admin = await prisma.admin.findUnique({
-    where: { email },
-  })
+  try {
+    // 3. Find user in database
+    const admin = await prisma.admin.findUnique({
+      where: { email },
+    })
 
-  // 4. Check if user exists and password is correct
-  if (!admin || !(await bcrypt.compare(password, admin.password))) {
+    // 4. Check if user exists and password is correct
+    if (!admin || !(await bcrypt.compare(password, admin.password))) {
+      return {
+        errors: {
+          email: ['Invalid email or password.'],
+        },
+      }
+    }
+
+    // 5. Create user session
+    await createSession(admin.id.toString())
+  } catch (error) {
+    console.error('Login error:', error)
     return {
       errors: {
-        email: ['Invalid email or password.'],
+        email: ['Something went wrong. Please try again.'],
       },
     }
   }
 
-  // 5. Create user session
-  await createSession(admin.id.toString())
-
-  // 6. Redirect to dashboard
+  // 6. Redirect to dashboard (must be outside try/catch — redirect throws internally)
   redirect('/dashboard')
 }
 
