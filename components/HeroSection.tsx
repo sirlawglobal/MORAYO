@@ -75,14 +75,32 @@ export default function HeroSection() {
             </span>
           </motion.div>
           
-          <div className="mb-8 flex justify-center">
+          <div className="mb-8 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 1 }}
-              className="text-5xl md:text-8xl font-serif text-white leading-tight inline-block bg-black/30 backdrop-blur-md px-8 py-6 rounded-[2rem] border border-white/10 shadow-2xl"
+              className="text-5xl md:text-7xl lg:text-8xl font-serif text-white leading-tight inline-block bg-black/30 backdrop-blur-md px-6 py-4 md:px-8 md:py-6 rounded-[2rem] border border-white/10 shadow-2xl"
             >
-              MORadekemi <span className="text-brand-gold italic serif block md:inline md:mx-4 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">&</span> AYObami
+              MORadekemi
+            </motion.h1>
+            
+            <motion.span 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.8, duration: 0.8 }}
+              className="text-5xl md:text-6xl lg:text-7xl text-brand-gold italic serif drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] z-10 relative"
+            >
+              &
+            </motion.span>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.0, duration: 1 }}
+              className="text-5xl md:text-7xl lg:text-8xl font-serif text-white leading-tight inline-block bg-black/30 backdrop-blur-md px-6 py-4 md:px-8 md:py-6 rounded-[2rem] border border-white/10 shadow-2xl"
+            >
+              AYObami
             </motion.h1>
           </div>
 
