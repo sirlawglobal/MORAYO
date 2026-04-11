@@ -41,11 +41,11 @@ export async function login(prevState: any, formData: FormData) {
 
     // 5. Create user session
     await createSession(admin.id.toString())
-  } catch (error) {
+  } catch (error: any) {
     console.error('Login error:', error)
     return {
       errors: {
-        email: ['Something went wrong. Please try again.'],
+        email: [`Login failed: ${error?.message || 'Unknown error'}`],
       },
     }
   }
