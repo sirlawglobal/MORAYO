@@ -1,31 +1,34 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-pink: #f5e6e8;
-  --color-brand-gold: #d4af37;
-  --color-brand-cream: #fffaf0;
-  --color-brand-dark: #1a1a1a;
+  --color-brand-lavender: #9B82A9;
+  --color-brand-deep: #1F0D37;
+  --color-brand-gold: #D4AF37;
+  --color-brand-cream: #F9F7FA;
+  --color-brand-dark: #1F0D37;
+  --color-brand-pink: #9B82A9; 
   
   --font-serif: "Cormorant Garamond", serif;
   --font-sans: "Inter", sans-serif;
   
-  --animate-float: float 3s ease-in-out infinite;
-  --animate-fade-in: fadeIn 1s ease-out forwards;
+  --animate-float: float 4s ease-in-out infinite;
+  --animate-fade-in: fadeIn 1.2s ease-out forwards;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-15px); }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 :root {
   --background: var(--color-brand-cream);
-  --foreground: var(--color-brand-dark);
+  --foreground: var(--color-brand-deep);
 }
 
 body {
@@ -40,13 +43,32 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(31, 13, 55, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(155, 130, 169, 0.2);
+}
+
+.text-gradient-purple {
+  background: linear-gradient(to right, #9B82A9, #1F0D37);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .text-gradient-gold {
-  background: linear-gradient(to right, #d4af37, #f1c40f, #d4af37);
+  background: linear-gradient(to right, #D4AF37, #F1C40F, #D4AF37);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+/* Texture Pattern - Silk Subtle Floral */
+.texture-silk {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239b82a9' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.shadow-premium {
+  box-shadow: 0 10px 40px -10px rgba(31, 13, 55, 0.15);
+}
+
+.border-lavender {
+  border-color: rgba(155, 130, 169, 0.2);
 }
