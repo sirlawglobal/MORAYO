@@ -57,12 +57,12 @@ export default function HeroSection() {
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Centered Content Card - Transparent but blurred for readability */}
+        {/* Centered Content Card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
-          className="relative max-w-4xl mx-auto text-center text-white px-6 py-12 md:px-16 md:py-20 bg-white/5 backdrop-blur-md rounded-[4rem] border border-white/10 shadow-[0_30px_60px_rgba(0,0,0,0.3)]"
+          className="relative max-w-4xl mx-auto text-center text-white px-6 py-12 md:px-16 md:py-20"
         >
           <motion.div
             initial={{ opacity: 0 }}
@@ -70,19 +70,21 @@ export default function HeroSection() {
             transition={{ delay: 0.3, duration: 1 }}
             className="mb-6 inline-block"
           >
-            <span className="text-brand-gold text-xs md:text-sm font-bold tracking-[0.4em] uppercase drop-shadow-md">
+            <span className="inline-block text-brand-gold text-xs md:text-sm font-bold tracking-[0.4em] uppercase shadow-lg bg-black/40 backdrop-blur-md px-6 py-3 rounded-full border border-white/10">
               Celebrating the Union of
             </span>
           </motion.div>
           
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 1 }}
-            className="text-5xl md:text-8xl font-serif mb-8 text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] leading-tight"
-          >
-            MORadekemi <span className="text-brand-gold italic serif block md:inline md:mx-4">&</span> AYObami
-          </motion.h1>
+          <div className="mb-8 flex justify-center">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 1 }}
+              className="text-5xl md:text-8xl font-serif text-white leading-tight inline-block bg-black/30 backdrop-blur-md px-8 py-6 rounded-[2rem] border border-white/10 shadow-2xl"
+            >
+              MORadekemi <span className="text-brand-gold italic serif block md:inline md:mx-4 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">&</span> AYObami
+            </motion.h1>
+          </div>
 
           {/* Countdown - Minimal Glass Style */}
           <motion.div
