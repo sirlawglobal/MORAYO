@@ -3,34 +3,38 @@
 import { motion } from 'framer-motion'
 import { MapPin, Clock, Calendar, Shirt, Gem } from 'lucide-react'
 
-export default function EventDetails() {
-  const events = [
+interface Event {
+  id: string
+  title: string
+  date: string
+  time: string
+  location: string
+  dressCode: string
+}
+
+interface EventDetailsProps {
+  events: Event[]
+}
+
+export default function EventDetails({ events }: EventDetailsProps) {
+  // Map icons based on title or index
+  const getIcon = (index: number) => {
+    switch(index % 3) {
+      case 0: return <Gem className="text-brand-gold" size={24} />
+      case 1: return <Clock className="text-brand-gold" size={24} />
+      default: return <MapPin className="text-brand-gold" size={24} />
+    }
+  }
+
+  // Fallback data if DB is empty (should not happen after seed)
+  const displayEvents = events?.length > 0 ? events : [
     {
-      id: 1,
+      id: '1',
       title: 'Traditional Wedding',
       date: 'December 28, 2026',
       time: '10:00 AM',
       location: 'Grand Heritage Hall, Lagos',
       dressCode: 'Elegant Traditional Attire',
-      icon: <Gem className="text-brand-gold" size={24} />,
-    },
-    {
-      id: 2,
-      title: 'Wedding Ceremony',
-      date: 'December 31, 2026',
-      time: '1:00 PM',
-      location: 'The White Pebble Chapel, Lagos',
-      dressCode: 'Strictly Formal / Black Tie',
-      icon: <Clock className="text-brand-gold" size={24} />,
-    },
-    {
-      id: 3,
-      title: 'Reception Party',
-      date: 'December 31, 2026',
-      time: '4:00 PM',
-      location: 'Grand Ballroom, Eko Hotel',
-      dressCode: 'Evening Grace',
-      icon: <MapPin className="text-brand-gold" size={24} />,
     }
   ]
 
@@ -57,7 +61,7 @@ export default function EventDetails() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {events.map((event, index) => (
+          {displayEvents.map((event, index) => (
             <motion.div
               key={event.id}
               initial={{ opacity: 0, y: 30 }}
@@ -66,11 +70,10 @@ export default function EventDetails() {
               transition={{ delay: index * 0.2, duration: 0.8 }}
               className="group bg-white p-10 rounded-[3rem] shadow-premium hover:shadow-2xl transition-all duration-500 border border-brand-lavender/10 relative overflow-hidden flex flex-col items-center text-center"
             >
-              {/* Card Corner Trim */}
               <div className="absolute top-0 right-0 w-24 h-24 bg-brand-lavender/5 rounded-bl-[100px] transition-all group-hover:bg-brand-gold/10" />
               
               <div className="w-16 h-16 bg-brand-deep/5 rounded-[1.5rem] flex items-center justify-center mb-8 border border-brand-lavender/10 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-                {event.icon}
+                {getIcon(index)}
               </div>
               
               <h3 className="text-3xl font-serif mb-6 text-brand-deep group-hover:text-brand-lavender transition-colors">{event.title}</h3>
@@ -143,7 +146,6 @@ export default function EventDetails() {
             loading="lazy" 
             className="grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000"
           ></iframe>
-          {/* Legend Overlay */}
           <div className="absolute top-10 left-10 p-8 bg-brand-deep/80 backdrop-blur-xl rounded-[2.5rem] border border-white/10 text-white shadow-2xl pointer-events-none translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
              <h4 className="text-2xl font-serif text-brand-gold mb-1">Our Location</h4>
              <p className="text-xs uppercase tracking-widest opacity-60 font-medium">Lagos, Nigeria</p>

@@ -57,11 +57,18 @@ export async function getRSVPs() {
 
 // --- Event Detail Actions ---
 
-export async function updateEventDetails(id: string, value: string) {
+export async function updateEventDetails(formData: FormData) {
   try {
+    const id = formData.get('id') as string
+    const title = formData.get('title') as string
+    const date = formData.get('date') as string
+    const time = formData.get('time') as string
+    const location = formData.get('location') as string
+    const dressCode = formData.get('dressCode') as string
+
     await prisma.eventDetail.update({
       where: { id },
-      data: { value },
+      data: { title, date, time, location, dressCode },
     })
     revalidatePath('/')
     revalidatePath('/dashboard/events')
@@ -72,19 +79,44 @@ export async function updateEventDetails(id: string, value: string) {
   }
 }
 
+export async function getEventDetails() {
+  try {
+    return await prisma.eventDetail.findMany({
+      orderBy: { order: 'asc' },
+    })
+  } catch (error) {
+    console.error('Event details fetch failed:', error)
+    return []
+  }
+}
+
 // --- Support Info Actions ---
 
-export async function updateSupportInfo(id: string, value: string) {
+export async function updateSupportDetail(formData: FormData) {
   try {
-    await prisma.supportInfo.update({
+    const id = formData.get('id') as string
+    const bank = formData.get('bank') as string
+    const accountNum = formData.get('accountNum') as string
+    const accountName = formData.get('accountName') as string
+
+    await prisma.supportDetail.update({
       where: { id },
-      data: { value },
+      data: { bank, accountNum, accountName },
     })
     revalidatePath('/')
     revalidatePath('/dashboard/support')
     return { success: true }
   } catch (error: any) {
-    console.error('Update support info error:', error)
-    return { success: false, error: error?.message || 'Failed to update support info' }
+    console.error('Update support detail error:', error)
+    return { success: false, error: error?.message || 'Failed to update support detail' }
+  }
+}
+
+export async function getSupportDetails() {
+  try {
+    return await prisma.supportDetail.findMany()
+  } catch (error) {
+    console.error('Support details fetch failed:', error)
+    return []
   }
 }

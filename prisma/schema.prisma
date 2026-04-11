@@ -41,13 +41,20 @@ model RSVP {
 }
 
 model EventDetail {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  title String
-  value String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  date      String
+  time      String
+  location  String
+  dressCode String
+  order     Int      @default(0)
 }
 
-model SupportInfo {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  label String
-  value String
+model SupportDetail {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  currency    String // "NGN" or "USD"
+  bank        String
+  accountNum  String
+  accountName String
+  symbol      String
 }

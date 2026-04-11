@@ -1,66 +1,62 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
 export default function HeroSection() {
-  const { scrollY } = useScroll()
-  const y1 = useTransform(scrollY, [0, 500], [0, 200])
-  const opacity = useTransform(scrollY, [0, 400], [1, 0])
-
-  const [timeLeft, setTimeLeft] = useState<{
-    days: number;
-    hours: number;
-    minutes: number;
-    seconds: number;
-  }>({ days: 0, hours: 0, minutes: 0, seconds: 0 })
-
-  // Example Wedding Date
-  const weddingDate = new Date('2026-10-31T00:00:00')
+  const [days, setDays] = useState(0)
+  const [hours, setHours] = useState(0)
+  const [minutes, setMinutes] = useState(0)
+  const [seconds, setSeconds] = useState(0)
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      const now = new Date()
-      const difference = weddingDate.getTime() - now.getTime()
+    const target = new Date('December 31, 2026 13:00:00')
 
-      if (difference > 0) {
-        setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60),
-        })
+    const interval = setInterval(() => {
+      const now = new Date()
+      const difference = target.getTime() - now.getTime()
+
+      const d = Math.floor(difference / (1000 * 60 * 60 * 24))
+      setDays(d)
+
+      const h = Math.floor(
+        (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      )
+      setHours(h)
+
+      const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))
+      setMinutes(m)
+
+      const s = Math.floor((difference % (1000 * 60)) / 1000)
+      setSeconds(s)
+
+      if (difference <= 0) {
+        clearInterval(interval)
       }
     }, 1000)
 
-    return () => clearInterval(timer)
-  }, [weddingDate])
+    return () => clearInterval(interval)
+  }, [])
 
   return (
-    <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
-      {/* Cinematic Background */}
-      <motion.div
-        style={{ y: y1 }}
-        className="absolute inset-0 z-0"
-      >
-        <Image
-          src="/hero-purple.png"
-          alt="Morayo & Ade Wedding"
-          fill
-          className="object-cover"
-          priority
+    <section className="relative h-screen min-h-[800px] flex items-center justify-center overflow-hidden">
+      {/* Cinematic Hero Background */}
+      <div className="absolute inset-0 z-0">
+        <Image 
+          src="/hero-purple.png" 
+          alt="Romantic Couple" 
+          fill 
+          priority 
+          className="object-cover scale-105 animate-subtle-zoom" 
         />
-        {/* Soft Purple & Gold Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-brand-deep/60 via-brand-deep/20 to-brand-cream/10" />
-      </motion.div>
+        {/* Multi-layered luxury overlays */}
+        <div className="absolute inset-0 bg-brand-deep/40 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-deep/60 via-transparent to-brand-deep/80" />
+        <div className="absolute inset-0 texture-silk opacity-10 mix-blend-overlay" />
+      </div>
 
-      {/* Content */}
-      <motion.div
-        style={{ opacity }}
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
+      <div 
         className="relative z-10 text-center text-white px-4"
       >
         <motion.div
@@ -73,9 +69,9 @@ export default function HeroSection() {
             Celebrating the Union of
           </span>
         </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+        
+        <motion.h1 
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 1.2 }}
           className="text-5xl md:text-7xl font-serif mb-8 text-white drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)] leading-tight"
@@ -88,52 +84,40 @@ export default function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1, duration: 1 }}
-          className="flex justify-center gap-4 md:gap-10 mb-14 bg-brand-deep/30 backdrop-blur-md p-6 rounded-[2rem] border border-white/10 shadow-2xl inline-flex mx-auto"
+          className="flex gap-4 md:gap-8 justify-center mb-12"
         >
-          {Object.entries(timeLeft).map(([unit, value]) => (
-            <div key={unit} className="flex flex-col items-center min-w-[60px] md:min-w-[80px]">
-              <span className="text-3xl md:text-5xl font-serif text-brand-gold drop-shadow-sm">{value}</span>
-              <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-white/70">{unit}</span>
+          {[
+            { label: 'Days', value: days },
+            { label: 'Hours', value: hours },
+            { label: 'Mins', value: minutes },
+            { label: 'Secs', value: seconds }
+          ].map((item, idx) => (
+            <div key={idx} className="flex flex-col items-center">
+              <div className="w-16 h-16 md:w-20 md:h-20 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20 shadow-2xl">
+                <span className="text-2xl md:text-3xl font-serif text-brand-gold">{item.value.toString().padStart(2, '0')}</span>
+              </div>
+              <span className="mt-2 text-[10px] uppercase tracking-[0.2em] font-medium text-brand-lavender/80">{item.label}</span>
             </div>
           ))}
         </motion.div>
 
-        {/* CTA Buttons */}
-        <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-10 py-4 bg-brand-gold text-brand-deep rounded-full hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all duration-500 font-bold tracking-widest text-sm"
-            onClick={() => document.getElementById('rsvp')?.scrollIntoView({ behavior: 'smooth' })}
-          >
-            RSVP YOUR ATTENDANCE
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-10 py-4 glass text-white rounded-full hover:bg-white hover:text-brand-deep transition-all duration-500 font-bold tracking-widest text-sm border-white/30"
-            onClick={() => document.getElementById('story')?.scrollIntoView({ behavior: 'smooth' })}
-          >
-            EXPLORE OUR STORY
-          </motion.button>
-        </div>
-      </motion.div>
+        <motion.div
+           initial={{ opacity: 0, y: 20 }}
+           animate={{ opacity: 1, y: 0 }}
+           transition={{ delay: 1.4, duration: 1 }}
+        >
+           <a 
+             href="#rsvp" 
+             className="inline-block px-12 py-5 bg-white text-brand-deep rounded-full font-bold text-xs uppercase tracking-[0.3em] hover:bg-brand-gold hover:text-white hover:shadow-[0_20px_40px_rgba(212,175,55,0.4)] transition-all duration-500 transform hover:-translate-y-1"
+           >
+             Save Our Date
+           </a>
+        </motion.div>
+      </div>
 
-      {/* Scroll Indicator */}
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 text-white/50"
-      >
-        <span className="text-[9px] tracking-[0.3em] uppercase font-bold">The Journey Begins</span>
-        <div className="w-[1px] h-16 bg-white/20 relative">
-          <motion.div
-            animate={{ top: ['0%', '100%'], opacity: [0, 1, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="absolute left-0 w-full h-6 bg-brand-gold"
-          />
-        </div>
-      </motion.div>
+      {/* Decorative Silk Corners */}
+      <div className="absolute top-10 left-10 w-40 h-40 border-l border-t border-brand-gold/30 rounded-tl-[60px] opacity-40" />
+      <div className="absolute bottom-10 right-10 w-40 h-40 border-r border-b border-brand-gold/30 rounded-br-[60px] opacity-40" />
     </section>
   )
 }

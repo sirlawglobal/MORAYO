@@ -153,7 +153,7 @@ export default function RSVPForm() {
           
           <div className="mt-16 text-center">
              <Heart size={20} className="mx-auto text-brand-gold/40 mb-2" />
-             <p className="text-[10px] uppercase tracking-[0.5em] text-gray-300">Morayo & Adebami | Oct 2026</p>
+             <p className="text-[10px] uppercase tracking-[0.5em] text-gray-300">MORadekemi & AYObami | Oct 2026</p>
           </div>
         </div>
       </div>

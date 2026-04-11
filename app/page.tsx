@@ -13,18 +13,22 @@ export const dynamic = 'force-dynamic'
 export default async function Home() {
   let stories: any[] = []
   let images: any[] = []
+  let eventDetails: any[] = []
+  let supportDetails: any[] = []
 
   try {
-    stories = await prisma.story.findMany({
-      orderBy: { order: 'asc' },
-    })
-
-    images = await prisma.gallery.findMany({
-      orderBy: { createdAt: 'desc' },
-    })
+    const [sc, gc, ec, sd] = await Promise.all([
+      prisma.story.findMany({ orderBy: { order: 'asc' } }),
+      prisma.gallery.findMany({ orderBy: { createdAt: 'desc' } }),
+      prisma.eventDetail.findMany({ orderBy: { order: 'asc' } }),
+      prisma.supportDetail.findMany()
+    ])
+    stories = sc
+    images = gc
+    eventDetails = ec
+    supportDetails = sd
   } catch (error) {
     console.error('Database connection failed. Serving fallback UI.', error)
-    // Fallback or empty states are handled by letting stories/images stay empty arrays
   }
 
   return (
@@ -42,10 +46,10 @@ export default async function Home() {
       <GalleryGrid images={images} />
 
       {/* Event Details Section */}
-      <EventDetails />
+      <EventDetails events={eventDetails} />
 
       {/* Support / Gift Section */}
-      <SupportSection />
+      <SupportSection supportData={supportDetails} />
 
       {/* RSVP Section */}
       <RSVPForm />
@@ -56,7 +60,7 @@ export default async function Home() {
           <div className="flex justify-center mb-6 text-brand-gold">
             <Heart fill="currentColor" size={32} />
           </div>
-          <h2 className="text-3xl font-serif mb-4">Morayo & Ade</h2>
+          <h2 className="text-3xl font-serif mb-4">MORadekemi <span className="text-brand-gold italic"> & </span> AYObami</h2>
           <p className="text-brand-pink/60 uppercase tracking-[0.3em] text-sm mb-8">Beginning Forever | 31.12.26</p>
           
           <div className="flex justify-center gap-8 mb-12">
