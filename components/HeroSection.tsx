@@ -11,7 +11,7 @@ export default function HeroSection() {
   const [seconds, setSeconds] = useState(0)
 
   useEffect(() => {
-    const target = new Date('December 31, 2026 13:00:00')
+    const target = new Date('October 31, 2026 13:00:00')
 
     const interval = setInterval(() => {
       const now = new Date()
@@ -43,12 +43,12 @@ export default function HeroSection() {
     <section className="relative h-screen min-h-[800px] flex items-center justify-center overflow-hidden">
       {/* Cinematic Hero Background */}
       <div className="absolute inset-0 z-0">
-        <Image 
-          src="/hero-purple.png" 
-          alt="Romantic Couple" 
-          fill 
-          priority 
-          className="object-cover scale-105 animate-subtle-zoom" 
+        <Image
+          src="/hero-purple.png"
+          alt="Romantic Couple"
+          fill
+          priority
+          className="object-cover scale-105 animate-subtle-zoom"
         />
         {/* Multi-layered luxury overlays */}
         <div className="absolute inset-0 bg-brand-deep/40 backdrop-blur-[2px]" />
@@ -56,7 +56,7 @@ export default function HeroSection() {
         <div className="absolute inset-0 texture-silk opacity-10 mix-blend-overlay" />
       </div>
 
-      <div 
+      <div
         className="relative z-10 text-center text-white px-4"
       >
         <motion.div
@@ -69,8 +69,8 @@ export default function HeroSection() {
             Celebrating the Union of
           </span>
         </motion.div>
-        
-        <motion.h1 
+
+        <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 1.2 }}
@@ -102,16 +102,16 @@ export default function HeroSection() {
         </motion.div>
 
         <motion.div
-           initial={{ opacity: 0, y: 20 }}
-           animate={{ opacity: 1, y: 0 }}
-           transition={{ delay: 1.4, duration: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.4, duration: 1 }}
         >
-           <a 
-             href="#rsvp" 
-             className="inline-block px-12 py-5 bg-white text-brand-deep rounded-full font-bold text-xs uppercase tracking-[0.3em] hover:bg-brand-gold hover:text-white hover:shadow-[0_20px_40px_rgba(212,175,55,0.4)] transition-all duration-500 transform hover:-translate-y-1"
-           >
-             Save Our Date
-           </a>
+          <a
+            href="#rsvp"
+            className="inline-block px-12 py-5 bg-white text-brand-deep rounded-full font-bold text-xs uppercase tracking-[0.3em] hover:bg-brand-gold hover:text-white hover:shadow-[0_20px_40px_rgba(212,175,55,0.4)] transition-all duration-500 transform hover:-translate-y-1"
+          >
+            Save Our Date
+          </a>
         </motion.div>
       </div>
 
