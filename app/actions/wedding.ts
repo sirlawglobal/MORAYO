@@ -15,48 +15,76 @@ const rsvpSchema = z.object({
 })
 
 export async function submitRSVP(formData: FormData) {
-  const data = rsvpSchema.parse({
-    name: formData.get('name'),
-    email: formData.get('email'),
-    phone: formData.get('phone'),
-    status: formData.get('status'),
-    message: formData.get('message'),
-  })
+  try {
+    const data = rsvpSchema.parse({
+      name: formData.get('name'),
+      email: formData.get('email'),
+      phone: formData.get('phone'),
+      status: formData.get('status'),
+      message: formData.get('message') || undefined,
+    })
 
-  await prisma.rSVP.create({ data })
-  revalidatePath('/dashboard/rsvps')
-  return { success: true }
+    await prisma.rSVP.create({ data })
+    revalidatePath('/dashboard/rsvps')
+    return { success: true }
+  } catch (error: any) {
+    console.error('Submit RSVP error:', error)
+    return { success: false, error: error?.message || 'Failed to submit RSVP' }
+  }
 }
 
 export async function deleteRSVP(id: string) {
-  await prisma.rSVP.delete({ where: { id } })
-  revalidatePath('/dashboard/rsvps')
+  try {
+    await prisma.rSVP.delete({ where: { id } })
+    revalidatePath('/dashboard/rsvps')
+    return { success: true }
+  } catch (error: any) {
+    console.error('Delete RSVP error:', error)
+    return { success: false, error: error?.message || 'Failed to delete RSVP' }
+  }
 }
 
 export async function getRSVPs() {
-  return await prisma.rSVP.findMany({
-    orderBy: { createdAt: 'desc' },
-  })
+  try {
+    return await prisma.rSVP.findMany({
+      orderBy: { createdAt: 'desc' },
+    })
+  } catch (error) {
+    console.error('RSVPs fetch failed:', error)
+    return []
+  }
 }
 
 // --- Event Detail Actions ---
 
 export async function updateEventDetails(id: string, value: string) {
-  await prisma.eventDetail.update({
-    where: { id },
-    data: { value },
-  })
-  revalidatePath('/')
-  revalidatePath('/dashboard')
+  try {
+    await prisma.eventDetail.update({
+      where: { id },
+      data: { value },
+    })
+    revalidatePath('/')
+    revalidatePath('/dashboard/events')
+    return { success: true }
+  } catch (error: any) {
+    console.error('Update event error:', error)
+    return { success: false, error: error?.message || 'Failed to update event' }
+  }
 }
 
 // --- Support Info Actions ---
 
 export async function updateSupportInfo(id: string, value: string) {
-  await prisma.supportInfo.update({
-    where: { id },
-    data: { value },
-  })
-  revalidatePath('/')
-  revalidatePath('/dashboard')
+  try {
+    await prisma.supportInfo.update({
+      where: { id },
+      data: { value },
+    })
+    revalidatePath('/')
+    revalidatePath('/dashboard/support')
+    return { success: true }
+  } catch (error: any) {
+    console.error('Update support info error:', error)
+    return { success: false, error: error?.message || 'Failed to update support info' }
+  }
 }

@@ -45,7 +45,7 @@ export async function login(prevState: any, formData: FormData) {
     console.error('Login error:', error)
     return {
       errors: {
-        email: [`Login failed: ${error?.message || 'Unknown error'}`],
+        email: ['Something went wrong. Please try again.'],
       },
     }
   }

@@ -12,38 +12,56 @@ const storySchema = z.object({
 })
 
 export async function createStory(formData: FormData) {
-  const data = storySchema.parse({
-    title: formData.get('title'),
-    description: formData.get('description'),
-    imageUrl: formData.get('imageUrl'),
-    order: Number(formData.get('order')) || 0,
-  })
+  try {
+    const data = storySchema.parse({
+      title: formData.get('title'),
+      description: formData.get('description'),
+      imageUrl: formData.get('imageUrl') || undefined,
+      order: Number(formData.get('order')) || 0,
+    })
 
-  await prisma.story.create({ data })
-  revalidatePath('/')
-  revalidatePath('/dashboard/stories')
+    await prisma.story.create({ data })
+    revalidatePath('/')
+    revalidatePath('/dashboard/stories')
+    return { success: true }
+  } catch (error: any) {
+    console.error('Create story error:', error)
+    return { success: false, error: error?.message || 'Failed to create story' }
+  }
 }
 
 export async function updateStory(id: string, formData: FormData) {
-  const data = storySchema.parse({
-    title: formData.get('title'),
-    description: formData.get('description'),
-    imageUrl: formData.get('imageUrl'),
-    order: Number(formData.get('order')) || 0,
-  })
+  try {
+    const data = storySchema.parse({
+      title: formData.get('title'),
+      description: formData.get('description'),
+      imageUrl: formData.get('imageUrl') || undefined,
+      order: Number(formData.get('order')) || 0,
+    })
 
-  await prisma.story.update({
-    where: { id },
-    data,
-  })
-  revalidatePath('/')
-  revalidatePath('/dashboard/stories')
+    await prisma.story.update({
+      where: { id },
+      data,
+    })
+    revalidatePath('/')
+    revalidatePath('/dashboard/stories')
+    return { success: true }
+  } catch (error: any) {
+    console.error('Update story error:', error)
+    return { success: false, error: error?.message || 'Failed to update story' }
+  }
 }
 
 export async function deleteStory(id: string) {
-  await prisma.story.delete({ where: { id } })
-  revalidatePath('/')
-  revalidatePath('/dashboard/stories')
+  try {
+    await prisma.story.delete({ where: { id } })
+    revalidatePath('/')
+    revalidatePath('/dashboard/stories')
+    return { success: true }
+  } catch (error: any) {
+    console.error('Delete story error:', error)
+    return { success: false, error: error?.message || 'Failed to delete story' }
+  }
 }
 
 export async function getStories() {

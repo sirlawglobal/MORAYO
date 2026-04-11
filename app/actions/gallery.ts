@@ -10,20 +10,32 @@ const gallerySchema = z.object({
 })
 
 export async function addGalleryImage(formData: FormData) {
-  const data = gallerySchema.parse({
-    imageUrl: formData.get('imageUrl'),
-    category: formData.get('category'),
-  })
+  try {
+    const data = gallerySchema.parse({
+      imageUrl: formData.get('imageUrl'),
+      category: formData.get('category'),
+    })
 
-  await prisma.gallery.create({ data })
-  revalidatePath('/gallery')
-  revalidatePath('/dashboard/gallery')
+    await prisma.gallery.create({ data })
+    revalidatePath('/')
+    revalidatePath('/dashboard/gallery')
+    return { success: true }
+  } catch (error: any) {
+    console.error('Add gallery image error:', error)
+    return { success: false, error: error?.message || 'Failed to add image' }
+  }
 }
 
 export async function deleteGalleryImage(id: string) {
-  await prisma.gallery.delete({ where: { id } })
-  revalidatePath('/gallery')
-  revalidatePath('/dashboard/gallery')
+  try {
+    await prisma.gallery.delete({ where: { id } })
+    revalidatePath('/')
+    revalidatePath('/dashboard/gallery')
+    return { success: true }
+  } catch (error: any) {
+    console.error('Delete gallery image error:', error)
+    return { success: false, error: error?.message || 'Failed to delete image' }
+  }
 }
 
 export async function getGalleryImages() {
