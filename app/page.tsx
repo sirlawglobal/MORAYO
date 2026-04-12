@@ -52,7 +52,7 @@ export default async function Home() {
       <SupportSection supportData={supportDetails} />
 
       {/* RSVP Section */}
-      <RSVPForm />
+      {/* <RSVPForm /> */}
 
       {/* Footer */}
       <footer className="py-16 bg-brand-dark text-white border-t border-brand-gold/20">
@@ -61,7 +61,7 @@ export default async function Home() {
             <Heart fill="currentColor" size={32} />
           </div>
           <h2 className="text-3xl font-serif mb-4">MORadekemi <span className="text-brand-gold italic"> & </span> AYObami</h2>
-          <p className="text-brand-pink/60 uppercase tracking-[0.3em] text-sm mb-8">Beginning Forever | 31.12.26</p>
+          <p className="text-brand-pink/60 uppercase tracking-[0.3em] text-sm mb-8">Beginning Forever | 31.10.26</p>
           
           <div className="flex justify-center gap-8 mb-12">
             {['Instagram', 'Twitter', 'Facebook'].map((social: string) => (
