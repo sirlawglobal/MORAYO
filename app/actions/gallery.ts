@@ -3,14 +3,7 @@
 import prisma from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
-import { v2 as cloudinary } from 'cloudinary'
-
-// Configure Cloudinary
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-})
+import cloudinary from '@/lib/cloudinary'
 
 const gallerySchema = z.object({
   category: z.string().min(1, 'Category is required'),
@@ -29,8 +22,12 @@ export async function addGalleryImage(formData: FormData) {
     const arrayBuffer = await file.arrayBuffer()
     const buffer = Buffer.from(arrayBuffer)
 
-    // Upload to Cloudinary with optimization
+    // Upload to Cloudinary with optimization and timeout
     const uploadResponse = await new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        reject(new Error('Upload timed out after 60 seconds'))
+      }, 60000)
+
       const uploadStream = cloudinary.uploader.upload_stream(
         {
           folder: 'wedding-gallery',
@@ -41,6 +38,7 @@ export async function addGalleryImage(formData: FormData) {
           ],
         },
         (error, result) => {
+          clearTimeout(timeout)
           if (error) reject(error)
           else resolve(result)
         }

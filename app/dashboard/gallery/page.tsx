@@ -67,20 +67,25 @@ export default function GalleryManagementPage() {
     setIsUploading(true)
     setError(null)
     
-    const formData = new FormData(e.currentTarget)
-    formData.append('file', file)
-    
-    const result = await addGalleryImage(formData)
-    
-    if (result.success) {
+    try {
+      const formData = new FormData(e.currentTarget)
+      formData.append('file', file)
+      
+      const result = await addGalleryImage(formData)
+      
+      if (result.success) {
+        setIsModalOpen(false)
+        setFile(null)
+        setPreviewUrl(null)
+        loadImages()
+      } else {
+        setError(result.error || 'Failed to upload image')
+      }
+    } catch (err: any) {
+      console.error('Upload error:', err)
+      setError('An unexpected error occurred during upload.')
+    } finally {
       setIsUploading(false)
-      setIsModalOpen(false)
-      setFile(null)
-      setPreviewUrl(null)
-      loadImages()
-    } else {
-      setIsUploading(false)
-      setError(result.error || 'Failed to upload image')
     }
   }
 
