@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
-import { X, PlayCircle, ImageIcon } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight, ImageIcon } from 'lucide-react'
 
 interface GalleryItem {
   id: string
@@ -12,29 +12,65 @@ interface GalleryItem {
 }
 
 export default function GalleryGrid({ images }: { images: GalleryItem[] }) {
-  const [selectedImage, setSelectedImage] = useState<GalleryItem | null>(null)
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const [filter, setFilter] = useState('All')
 
-  const categories = ['All', ...Array.from(new Set(images.map(img => img.category)))]
-  const filteredImages = filter === 'All' ? images : images.filter(img => img.category === filter)
+  // ✅ Optimized categories
+  const categories = useMemo(
+    () => ['All', ...Array.from(new Set(images.map((img) => img.category)))],
+    [images]
+  )
+
+  const filteredImages = useMemo(
+    () =>
+      filter === 'All'
+        ? images
+        : images.filter((img) => img.category === filter),
+    [images, filter]
+  )
+
+  // 🔥 Keyboard navigation
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (selectedIndex === null) return
+
+      if (e.key === 'Escape') setSelectedIndex(null)
+      if (e.key === 'ArrowRight')
+        setSelectedIndex((prev) =>
+          prev !== null ? (prev + 1) % filteredImages.length : null
+        )
+      if (e.key === 'ArrowLeft')
+        setSelectedIndex((prev) =>
+          prev !== null
+            ? (prev - 1 + filteredImages.length) % filteredImages.length
+            : null
+        )
+    }
+
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [selectedIndex, filteredImages])
 
   return (
-    <section id="gallery" className="py-32 relative min-h-screen bg-brand-deep overflow-hidden">
-      {/* Background Video Layer */}
+    <section className="py-28 md:py-32 relative bg-brand-deep overflow-hidden">
+      
+      {/* 🎬 Background Video */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="w-full h-full object-cover opacity-30 grayscale saturate-50"
+          className="w-full h-full object-cover opacity-25 grayscale"
           src="https://joy1.videvo.net/videvo_files/video/free/2014-12/large_watermarked/Wedding_Flowers_preview.mp4"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-brand-deep via-brand-deep/80 to-brand-deep" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-24">
+
+        {/* 🏷️ Header */}
+        <div className="text-center mb-20">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -42,25 +78,26 @@ export default function GalleryGrid({ images }: { images: GalleryItem[] }) {
           >
             <ImageIcon size={32} strokeWidth={1} />
           </motion.div>
-          <motion.h2 
+
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-5xl md:text-6xl font-serif mb-10 text-white"
+            className="text-4xl md:text-6xl font-serif text-white mb-8"
           >
-            Our Gallery of <span className="text-brand-lavender italic">Memories</span>
+            Our Gallery of{' '}
+            <span className="text-brand-lavender italic">Memories</span>
           </motion.h2>
-          
-          {/* Filters - Glass Style */}
-          <div className="flex flex-wrap justify-center gap-3 mb-12">
+
+          {/* Filters */}
+          <div className="flex flex-wrap justify-center gap-3">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setFilter(cat)}
-                className={`px-8 py-3 rounded-full text-xs font-bold tracking-[0.2em] uppercase transition-all duration-500 border ${
-                  filter === cat 
-                  ? 'bg-brand-gold border-brand-gold text-brand-deep shadow-[0_0_20px_rgba(212,175,55,0.3)]' 
-                  : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20'
+                className={`px-6 py-2 rounded-full text-xs tracking-[0.2em] uppercase border transition-all duration-300 ${
+                  filter === cat
+                    ? 'bg-brand-gold text-brand-deep border-brand-gold shadow-lg'
+                    : 'bg-white/5 text-white/60 border-white/10 hover:bg-white/10'
                 }`}
               >
                 {cat}
@@ -69,91 +106,114 @@ export default function GalleryGrid({ images }: { images: GalleryItem[] }) {
           </div>
         </div>
 
-        <motion.div 
+        {/* 🖼️ Grid */}
+        <motion.div
           layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
         >
-          {filteredImages.map((image) => (
-            <motion.div
-              key={image.id}
-              layout
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              whileHover={{ y: -15, scale: 1.02 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-              className="relative aspect-[4/5] cursor-pointer overflow-hidden rounded-[2.5rem] shadow-2xl group border border-white/5"
-              onClick={() => setSelectedImage(image)}
-            >
-              <Image
-                src={image.imageUrl}
-                alt={image.category}
-                fill
-                className="object-cover transition-transform duration-1000 group-hover:scale-110"
-              />
-              {/* Inner Glow & Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-deep/90 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
-              
-              <div className="absolute inset-0 flex flex-col justify-end p-10 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                <span className="text-brand-gold text-[10px] font-bold tracking-[0.3em] uppercase mb-2">
-                  {image.category}
-                </span>
-                <div className="w-12 h-[1px] bg-brand-gold mb-4 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-                <div className="flex items-center gap-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100">
-                  <PlayCircle size={20} className="text-brand-lavender" />
-                  <span className="text-xs uppercase tracking-widest font-medium">View Memory</span>
+          <AnimatePresence>
+            {filteredImages.map((image, index) => (
+              <motion.div
+                key={image.id}
+                layout
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 40 }}
+                transition={{ duration: 0.5 }}
+                whileHover={{ y: -10 }}
+                className="relative aspect-[4/5] rounded-[2rem] overflow-hidden cursor-pointer group"
+                onClick={() => setSelectedIndex(index)}
+              >
+                <Image
+                  src={image.imageUrl}
+                  alt={image.category}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition" />
+
+                {/* Content */}
+                <div className="absolute bottom-6 left-6 right-6">
+                  <p className="text-brand-gold text-[10px] tracking-[0.3em] uppercase mb-2">
+                    {image.category}
+                  </p>
+                  <div className="w-10 h-[1px] bg-brand-gold mb-3 scale-x-0 group-hover:scale-x-100 transition" />
+                  <p className="text-white text-xs opacity-0 group-hover:opacity-100 transition">
+                    View Memory
+                  </p>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </motion.div>
 
-        {/* Empty State */}
+        {/* Empty */}
         {filteredImages.length === 0 && (
-          <div className="py-20 text-center text-white/20 font-serif text-3xl italic">
-            Capturing moments soon...
+          <div className="py-20 text-center text-white/30 italic text-2xl">
+            Memories loading soon...
           </div>
         )}
 
-        {/* Premium Lightbox */}
+        {/* 💎 Lightbox */}
         <AnimatePresence>
-          {selectedImage && (
+          {selectedIndex !== null && (
             <motion.div
+              className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[100] bg-brand-deep/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-10"
-              onClick={() => setSelectedImage(null)}
+              onClick={() => setSelectedIndex(null)}
             >
-              <motion.button 
-                initial={{ rotate: -90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                className="absolute top-10 right-10 text-white hover:text-brand-gold transition-colors z-[110]"
-                onClick={() => setSelectedImage(null)}
+              {/* Close */}
+              <button
+                className="absolute top-6 right-6 text-white hover:text-brand-gold"
+                onClick={() => setSelectedIndex(null)}
               >
-                <X size={40} strokeWidth={1} />
-              </motion.button>
-              
-              <motion.div 
-                initial={{ scale: 0.9, y: 20, opacity: 0 }}
-                animate={{ scale: 1, y: 0, opacity: 1 }}
-                transition={{ type: "spring", damping: 25 }}
-                className="relative w-full h-full rounded-[3rem] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.8)] border border-white/5"
+                <X size={36} />
+              </button>
+
+              {/* Prev */}
+              <button
+                className="absolute left-6 text-white"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setSelectedIndex(
+                    (selectedIndex - 1 + filteredImages.length) %
+                      filteredImages.length
+                  )
+                }}
+              >
+                <ChevronLeft size={40} />
+              </button>
+
+              {/* Next */}
+              <button
+                className="absolute right-6 text-white"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setSelectedIndex(
+                    (selectedIndex + 1) % filteredImages.length
+                  )
+                }}
+              >
+                <ChevronRight size={40} />
+              </button>
+
+              {/* Image */}
+              <motion.div
+                initial={{ scale: 0.9 }}
+                animate={{ scale: 1 }}
+                className="relative w-[90%] md:w-[70%] h-[70%]"
                 onClick={(e) => e.stopPropagation()}
               >
                 <Image
-                  src={selectedImage.imageUrl}
-                  alt="Gallery Preview"
+                  src={filteredImages[selectedIndex].imageUrl}
+                  alt="Preview"
                   fill
-                  className="object-contain"
-                  priority
+                  className="object-contain rounded-2xl"
                 />
-                
-                {/* Information Overlay */}
-                <div className="absolute bottom-10 left-10 right-10 bg-brand-deep/50 backdrop-blur-md p-8 rounded-3xl border border-white/10 max-w-lg hidden md:block">
-                   <p className="text-brand-gold text-xs font-bold tracking-[0.4em] uppercase mb-2">{selectedImage.category}</p>
-                   <h3 className="text-white text-3xl font-serif">A Moment to Cherish</h3>
-                </div>
               </motion.div>
             </motion.div>
           )}
