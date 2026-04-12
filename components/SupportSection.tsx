@@ -1,8 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { CreditCard, Copy, Check, Heart, Wallet, Gift, Diamond } from 'lucide-react'
+import {
+  Copy,
+  Check,
+  Gift,
+  Wallet,
+  CreditCard,
+  Diamond
+} from 'lucide-react'
 
 interface SupportDetail {
   id: string
@@ -13,73 +20,67 @@ interface SupportDetail {
   symbol: string
 }
 
-interface SupportSectionProps {
-  supportData: SupportDetail[]
-}
-
-export default function SupportSection({ supportData }: SupportSectionProps) {
+export default function SupportSection({ supportData }: { supportData: SupportDetail[] }) {
   const [currency, setCurrency] = useState<string>('NGN')
   const [copied, setCopied] = useState<string | null>(null)
 
-  // Map the array data into a keyed object for easy access
-  const details = supportData?.reduce((acc: any, curr) => {
-    acc[curr.currency] = curr
-    return acc
-  }, {}) || {
-    NGN: {
-      bank: 'High Premium Bank',
-      accountNum: '0123456789',
-      accountName: 'MORadekemi & AYObami Wedding',
-      symbol: '₦',
-    }
-  }
+  // 🔥 Optimized mapping
+  const details = useMemo(() => {
+    const map: Record<string, SupportDetail> = {}
+    supportData?.forEach((item) => {
+      map[item.currency] = item
+    })
+    return map
+  }, [supportData])
 
-  const copyToClipboard = (text: string, id: string) => {
+  const active = details[currency] || Object.values(details)[0]
+
+  const copy = (text: string, key: string) => {
     navigator.clipboard.writeText(text)
-    setCopied(id)
+    setCopied(key)
     setTimeout(() => setCopied(null), 2000)
   }
 
-  const activeCurrency = details[currency] || Object.values(details)[0]
-
   return (
-    <section id="support" className="py-32 bg-white relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none texture-silk" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-lavender/5 rounded-full blur-[150px] pointer-events-none" />
+    <section className="py-28 bg-white relative overflow-hidden">
+
+      {/* 🌫️ Background Glow */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 w-[800px] h-[800px] bg-brand-lavender/10 blur-[140px] -translate-x-1/2 -translate-y-1/2" />
+      </div>
 
       <div className="container mx-auto px-4 relative z-10">
+
+        {/* Header */}
         <div className="text-center mb-20">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             className="flex justify-center mb-6 text-brand-gold"
           >
-            <Gift size={40} strokeWidth={1.5} />
+            <Gift size={36} />
           </motion.div>
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-5xl md:text-6xl font-serif mb-6 text-brand-deep"
-          >
+
+          <h2 className="text-4xl md:text-6xl font-serif text-brand-deep mb-6">
             Registry & <span className="text-brand-lavender italic">Support</span>
-          </motion.h2>
-          <p className="text-gray-500 font-light max-w-2xl mx-auto leading-relaxed italic">
-            "Your presence at our wedding is the greatest gift of all. However, if you wish to honor us with a gift, a contribution towards our new life together would be much appreciated."
+          </h2>
+
+          <p className="text-gray-500 italic max-w-xl mx-auto text-sm md:text-base">
+            Your presence is our greatest gift. If you wish to support us, we are deeply grateful ❤️
           </p>
         </div>
 
-        {/* Currency Switcher */}
+        {/* Currency Switch */}
         <div className="flex justify-center mb-16">
-          <div className="bg-brand-deep/5 p-2 rounded-full flex gap-2 border border-brand-lavender/10 shadow-inner">
+          <div className="flex gap-2 p-2 rounded-full bg-brand-deep/5 border border-brand-lavender/10">
             {Object.keys(details).map((curr) => (
               <button
                 key={curr}
                 onClick={() => setCurrency(curr)}
-                className={`px-10 py-3 rounded-full text-xs font-bold tracking-[0.3em] uppercase transition-all duration-500 ${
-                  currency === curr 
-                  ? 'bg-brand-deep text-white shadow-xl scale-105' 
-                  : 'text-brand-deep/60 hover:text-brand-deep hover:bg-white/50'
+                className={`px-6 py-2 rounded-full text-xs tracking-widest transition ${
+                  currency === curr
+                    ? 'bg-brand-deep text-white shadow-lg'
+                    : 'text-brand-deep/60 hover:bg-white'
                 }`}
               >
                 {curr}
@@ -88,87 +89,120 @@ export default function SupportSection({ supportData }: SupportSectionProps) {
           </div>
         </div>
 
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-stretch">
+        {/* Cards */}
+        <div className="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+
+          {/* 💎 Bank Card */}
           <AnimatePresence mode="wait">
-            <motion.div 
+            <motion.div
               key={currency}
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 30 }}
-              transition={{ duration: 0.5 }}
-              className="bg-brand-cream border border-brand-lavender/20 p-10 rounded-[3rem] relative overflow-hidden group shadow-premium"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              className="relative p-8 md:p-10 rounded-[2.5rem] bg-white/70 backdrop-blur-xl border border-white shadow-xl group"
             >
-              <div className="absolute top-0 right-0 p-8 text-brand-gold/5 group-hover:text-brand-gold/10 transition-colors">
-                <Diamond size={160} />
-              </div>
-              
-              <div className="relative z-10">
-                <div className="flex items-center gap-4 mb-10">
-                  <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-brand-gold shadow-sm">
-                    <Wallet size={24} />
-                  </div>
-                  <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-brand-deep/60">Registry Details</span>
+              {/* Glow */}
+              <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-brand-gold/10 blur-3xl rounded-full" />
+
+              <div className="relative z-10 space-y-8">
+
+                <div className="flex items-center gap-3">
+                  <Wallet className="text-brand-gold" />
+                  <span className="text-xs tracking-[0.3em] uppercase text-gray-400">
+                    Bank Details
+                  </span>
                 </div>
 
-                <div className="space-y-8">
+                <div>
+                  <p className="text-xs text-gray-400 uppercase mb-1">Bank</p>
+                  <h3 className="text-2xl font-serif text-brand-deep">
+                    {active?.bank}
+                  </h3>
+                </div>
+
+                {/* Account */}
+                <div className="p-5 rounded-2xl bg-white border flex justify-between items-center">
                   <div>
-                    <p className="text-[9px] uppercase tracking-[0.3em] text-gray-400 font-bold mb-2">Bank Institution</p>
-                    <p className="text-2xl font-serif text-brand-deep">{activeCurrency?.bank}</p>
-                  </div>
-                  
-                  <div className="group/acc relative bg-white/50 p-6 rounded-3xl border border-white transition-all hover:bg-white">
-                    <p className="text-[9px] uppercase tracking-[0.3em] text-gray-400 font-bold mb-2">Account Number</p>
-                    <div className="flex items-center justify-between">
-                      <p className="text-4xl font-serif tracking-tighter text-brand-deep">{activeCurrency?.accountNum}</p>
-                      <button 
-                        onClick={() => copyToClipboard(activeCurrency?.accountNum, 'acc')}
-                        className="p-3 bg-brand-deep/5 hover:bg-brand-gold text-brand-gold hover:text-white rounded-2xl transition-all duration-500"
-                      >
-                        {copied === 'acc' ? <Check size={20} /> : <Copy size={20} />}
-                      </button>
-                    </div>
+                    <p className="text-xs text-gray-400 uppercase mb-1">
+                      Account Number
+                    </p>
+                    <h2 className="text-3xl font-serif text-brand-deep tracking-wide">
+                      {active?.accountNum}
+                    </h2>
                   </div>
 
-                  <div>
-                    <p className="text-[9px] uppercase tracking-[0.3em] text-gray-400 font-bold mb-2">Account Name</p>
-                    <p className="text-xl font-medium text-brand-deep/80">{activeCurrency?.accountName}</p>
-                  </div>
+                  <button
+                    onClick={() => copy(active?.accountNum, 'acc')}
+                    className="p-3 rounded-xl bg-brand-deep/5 hover:bg-brand-gold transition"
+                  >
+                    {copied === 'acc' ? (
+                      <Check className="text-white bg-brand-gold rounded-full p-1" />
+                    ) : (
+                      <Copy />
+                    )}
+                  </button>
+                </div>
+
+                <div>
+                  <p className="text-xs text-gray-400 uppercase mb-1">
+                    Account Name
+                  </p>
+                  <p className="text-lg text-brand-deep/80">
+                    {active?.accountName}
+                  </p>
                 </div>
               </div>
             </motion.div>
           </AnimatePresence>
 
-          <motion.div 
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="bg-brand-deep text-white p-10 rounded-[3rem] flex flex-col justify-between relative overflow-hidden shadow-2xl group"
+          {/* 💳 Online Payment */}
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            className="relative p-8 md:p-10 rounded-[2.5rem] bg-brand-deep text-white overflow-hidden"
           >
-             <div className="absolute inset-0 opacity-[0.03] pointer-events-none texture-silk" />
-             <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-brand-lavender/10 rounded-full blur-[100px]" />
-             
-            <div className="relative z-10">
-              <div className="flex items-center gap-4 mb-10">
-                <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-brand-gold backdrop-blur-md">
-                  <CreditCard size={24} />
-                </div>
-                <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-brand-lavender">Pay Securely Online</span>
-              </div>
-              
-              <h3 className="text-4xl font-serif mb-6 leading-tight">Digital Contribution Portal</h3>
-              <p className="text-brand-lavender/60 font-light leading-relaxed mb-10 text-base">
-                For our guests who prefer the convenience of online transfers or card payments via secure platforms like Paystack or Flutterwave.
-              </p>
-            </div>
+            {/* Glow */}
+            <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-brand-lavender/20 blur-3xl" />
 
-            <button className="relative z-10 w-full py-5 bg-brand-gold text-brand-deep rounded-[2rem] font-bold tracking-[0.2em] uppercase text-xs hover:transform hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(212,175,55,0.3)] transition-all duration-500 flex items-center justify-center gap-3 overflow-hidden group">
-              <span className="relative z-10">Contribute Online</span>
-              <Diamond size={16} className="relative z-10 transition-transform group-hover:rotate-45" />
-              <div className="absolute top-0 -left-[100%] w-full h-full bg-gradient-to-r from-transparent via-white/50 to-transparent transition-all duration-1000 group-hover:left-[100%]" />
-            </button>
+            <div className="relative z-10 flex flex-col justify-between h-full">
+
+              <div>
+                <div className="flex items-center gap-3 mb-6">
+                  <CreditCard className="text-brand-gold" />
+                  <span className="text-xs tracking-[0.3em] uppercase text-brand-lavender">
+                    Online Payment
+                  </span>
+                </div>
+
+                <h3 className="text-3xl font-serif mb-4">
+                  Digital Contribution
+                </h3>
+
+                <p className="text-brand-lavender/60 text-sm leading-relaxed">
+                  Send your love instantly via secure payment platforms like Paystack or Flutterwave.
+                </p>
+              </div>
+
+              <button className="mt-10 py-4 rounded-full bg-brand-gold text-brand-deep font-bold text-xs tracking-widest hover:scale-[1.03] transition flex items-center justify-center gap-2">
+                Contribute Now
+                <Diamond size={16} />
+              </button>
+            </div>
           </motion.div>
         </div>
+
+        {/* ✅ Copy Toast */}
+        <AnimatePresence>
+          {copied && (
+            <motion.div
+              initial={{ y: 40, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 40, opacity: 0 }}
+              className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-brand-deep text-white px-6 py-3 rounded-full text-xs tracking-widest shadow-xl"
+            >
+              Copied successfully ✓
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   )
