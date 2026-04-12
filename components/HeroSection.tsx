@@ -140,24 +140,24 @@ export default function HeroSection() {
         </motion.span> */}
 
         {/* Names */}
-        <div className="mb-10 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
-          {/* <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif 
+        {/* <div className="mb-10 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif 
           bg-black/25 backdrop-blur-md px-6 py-4 rounded-[2rem] border border-white/10
           drop-shadow-[0_4px_15px_rgba(0,0,0,0.9)]">
             MORadekemi
-          </h1> */}
+          </h1>
 
-          {/* <span className="text-5xl md:text-6xl lg:text-7xl text-brand-gold italic 
+          <span className="text-5xl md:text-6xl lg:text-7xl text-brand-gold italic 
           drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
             &
-          </span> */}
+          </span>
 
-          {/* <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif 
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif 
           bg-black/25 backdrop-blur-md px-6 py-4 rounded-[2rem] border border-white/10
           drop-shadow-[0_4px_15px_rgba(0,0,0,0.9)]">
             AYObaMI
-          </h1> */}
-        </div>
+          </h1>
+        </div> */}
 
         {/* ⏳ Countdown */}
         <div className="flex gap-3 md:gap-6 justify-center mb-12">
