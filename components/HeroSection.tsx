@@ -155,7 +155,7 @@ export default function HeroSection() {
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif 
           bg-black/25 backdrop-blur-md px-6 py-4 rounded-[2rem] border border-white/10
           drop-shadow-[0_4px_15px_rgba(0,0,0,0.9)]">
-            AYObami
+            AYObaMI
           </h1>
         </div>
 

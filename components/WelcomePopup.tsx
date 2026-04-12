@@ -48,7 +48,7 @@ export default function WelcomePopup() {
               </p>
 
               <h3 className="text-xl font-serif text-brand-gold mb-6">
-                MORadekemi & AYObaMI(MORAYOMI)
+                MORadekemi & AYObaMI
               </h3>
 
               <p className="text-xs text-white/60 mb-8">
