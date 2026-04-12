@@ -14,7 +14,7 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Morayo & Ade | Our Wedding",
+  title: "Moradekemi & Ayobami | Our Wedding",
   description: "Join us in celebrating our love and the beginning of our forever.",
 };
 
