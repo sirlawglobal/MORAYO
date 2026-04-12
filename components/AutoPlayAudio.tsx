@@ -31,7 +31,27 @@ export default function AutoPlayAudio() {
     }
   }, [])
 
-  // Unmute on first scroll — no click required
+  // Listen for the custom event from WelcomePopup
+  useEffect(() => {
+    const handleWelcomeEnter = () => {
+      const audio = audioRef.current
+      if (!audio) return
+
+      audio.muted = false
+      audio.play().then(() => {
+        setIsPlaying(true)
+        setIsMuted(false)
+        hasUnmutedRef.current = true
+      }).catch((err) => {
+        console.error('Audio playback failed:', err)
+      })
+    }
+
+    window.addEventListener('play-wedding-song', handleWelcomeEnter)
+    return () => window.removeEventListener('play-wedding-song', handleWelcomeEnter)
+  }, [])
+
+  // Keep unmute on first scroll as backup
   useEffect(() => {
     const handleScroll = () => {
       if (hasUnmutedRef.current) return

@@ -7,15 +7,13 @@ export default function WelcomePopup() {
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
-    const hasSeenPopup = localStorage.getItem('wedding_welcome_seen')
-
-    if (!hasSeenPopup) {
-      setTimeout(() => setIsOpen(true), 800) // delay for smooth entry
-    }
+    // Show popup on every reload as requested
+    setTimeout(() => setIsOpen(true), 800) // delay for smooth entry
   }, [])
-
+  
   const handleClose = () => {
-    localStorage.setItem('wedding_welcome_seen', 'true')
+    // Notify Audio component to play
+    window.dispatchEvent(new CustomEvent('play-wedding-song'))
     setIsOpen(false)
   }
 
