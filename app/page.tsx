@@ -4,7 +4,7 @@ import StoryTimeline from '@/components/StoryTimeline'
 import GalleryGrid from '@/components/GalleryGrid'
 import EventDetails from '@/components/EventDetails'
 import SupportSection from '@/components/SupportSection'
-import RSVPForm from '@/components/RSVPForm'
+// import RSVPForm from '@/components/RSVPForm'
 import AutoPlayAudio from '@/components/AutoPlayAudio'
 import { Heart } from 'lucide-react'
 
