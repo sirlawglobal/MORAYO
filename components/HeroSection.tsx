@@ -4,22 +4,33 @@ import { motion, useMotionValue, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
+type TimeLeft = {
+  days: number
+  hours: number
+  minutes: number
+  seconds: number
+}
+
 export default function HeroSection() {
-  const [timeLeft, setTimeLeft] = useState({
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: 0,
     hours: 0,
     minutes: 0,
     seconds: 0,
   })
 
-  // 🎥 Parallax (mouse movement)
+  const [isClient, setIsClient] = useState(false)
+
+  // 🎥 Parallax
   const x = useMotionValue(0)
   const y = useMotionValue(0)
 
   const rotateX = useTransform(y, [-100, 100], [5, -5])
   const rotateY = useTransform(x, [-100, 100], [-5, 5])
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (typeof window === 'undefined') return
+
     const { clientX, clientY } = e
     const centerX = window.innerWidth / 2
     const centerY = window.innerHeight / 2
@@ -36,7 +47,10 @@ export default function HeroSection() {
       const now = new Date()
       const diff = target.getTime() - now.getTime()
 
-      if (diff <= 0) return clearInterval(interval)
+      if (diff <= 0) {
+        clearInterval(interval)
+        return
+      }
 
       setTimeLeft({
         days: Math.floor(diff / (1000 * 60 * 60 * 24)),
@@ -47,6 +61,11 @@ export default function HeroSection() {
     }, 1000)
 
     return () => clearInterval(interval)
+  }, [])
+
+  // ✅ Ensure client-side rendering for particles
+  useEffect(() => {
+    setIsClient(true)
   }, [])
 
   return (
@@ -64,38 +83,43 @@ export default function HeroSection() {
           className="object-cover scale-105"
         />
 
-        {/* Soft overlay */}
         <div className="absolute inset-0 bg-black/10" />
 
-        {/* Radial focus */}
         <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0.5)_100%)]" />
       </div>
 
-      {/* ✨ Floating Particles */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        {[...Array(25)].map((_, i) => (
-          <motion.span
-            key={i}
-            className="absolute w-1.5 h-1.5 bg-white/40 rounded-full"
-            initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-              opacity: 0,
-            }}
-            animate={{
-              y: [null, Math.random() * -200],
-              opacity: [0, 1, 0],
-            }}
-            transition={{
-              duration: 6 + Math.random() * 5,
-              repeat: Infinity,
-              delay: Math.random() * 5,
-            }}
-          />
-        ))}
-      </div>
+      {/* ✨ Floating Particles (Client Only) */}
+      {isClient && (
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          {[...Array(25)].map((_, i) => {
+            const randomX = Math.random() * window.innerWidth
+            const randomY = Math.random() * window.innerHeight
 
-      {/* 💡 Glow Behind Content */}
+            return (
+              <motion.span
+                key={i}
+                className="absolute w-1.5 h-1.5 bg-white/40 rounded-full"
+                initial={{
+                  x: randomX,
+                  y: randomY,
+                  opacity: 0,
+                }}
+                animate={{
+                  y: randomY - 200,
+                  opacity: [0, 1, 0],
+                }}
+                transition={{
+                  duration: 6 + Math.random() * 5,
+                  repeat: Infinity,
+                  delay: Math.random() * 5,
+                }}
+              />
+            )
+          })}
+        </div>
+      )}
+
+      {/* 💡 Glow */}
       <div className="absolute inset-0 flex items-center justify-center z-0">
         <div className="w-[500px] h-[500px] bg-brand-gold/20 blur-[120px] rounded-full" />
       </div>
@@ -117,7 +141,6 @@ export default function HeroSection() {
 
         {/* Names */}
         <div className="mb-10 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
-          
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif 
           bg-black/25 backdrop-blur-md px-6 py-4 rounded-[2rem] border border-white/10
           drop-shadow-[0_4px_15px_rgba(0,0,0,0.9)]">
