@@ -130,33 +130,33 @@ export default function HeroSection() {
         className="relative z-10 max-w-4xl mx-auto text-center text-white px-6 py-12"
       >
         {/* Subtitle */}
-        <motion.span
+        {/* <motion.span
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="inline-block mb-6 text-brand-gold text-xs md:text-sm font-bold tracking-[0.4em] uppercase 
           bg-black/30 backdrop-blur-md px-6 py-3 rounded-full border border-white/10"
         >
           Celebrating the Union of
-        </motion.span>
+        </motion.span> */}
 
         {/* Names */}
         <div className="mb-10 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif 
+          {/* <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif 
           bg-black/25 backdrop-blur-md px-6 py-4 rounded-[2rem] border border-white/10
           drop-shadow-[0_4px_15px_rgba(0,0,0,0.9)]">
             MORadekemi
-          </h1>
+          </h1> */}
 
-          <span className="text-5xl md:text-6xl lg:text-7xl text-brand-gold italic 
+          {/* <span className="text-5xl md:text-6xl lg:text-7xl text-brand-gold italic 
           drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
             &
-          </span>
+          </span> */}
 
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif 
+          {/* <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif 
           bg-black/25 backdrop-blur-md px-6 py-4 rounded-[2rem] border border-white/10
           drop-shadow-[0_4px_15px_rgba(0,0,0,0.9)]">
             AYObaMI
-          </h1>
+          </h1> */}
         </div>
 
         {/* ⏳ Countdown */}
