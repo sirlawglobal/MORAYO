@@ -182,7 +182,7 @@ export default function HeroSection() {
         </div>
 
         {/* CTA */}
-        <a
+        {/* <a
           href="#rsvp"
           className="inline-block px-12 py-5 bg-brand-gold text-brand-deep rounded-full 
           font-bold text-xs uppercase tracking-[0.3em] 
@@ -190,7 +190,7 @@ export default function HeroSection() {
           transition-all duration-500 transform hover:-translate-y-1"
         >
           Save Our Date
-        </a>
+        </a> */}
       </motion.div>
     </section>
   )
