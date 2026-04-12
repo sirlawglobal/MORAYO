@@ -104,7 +104,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
           <div className="flex items-center gap-4">
             <div className="text-right hidden sm:block">
-              <p className="text-xs font-bold text-brand-deep uppercase tracking-tighter">Morayo & Ade</p>
+              <p className="text-xs font-bold text-brand-deep uppercase tracking-tighter">MORAYOMI</p>
               <p className="text-[9px] uppercase tracking-[0.2em] text-brand-gold font-bold">Oct 2026</p>
             </div>
             <div className="w-12 h-12 bg-brand-deep/5 rounded-2xl border border-brand-lavender/10 flex items-center justify-center text-brand-deep shadow-inner">
