@@ -129,35 +129,7 @@ export default function HeroSection() {
         style={{ rotateX, rotateY }}
         className="relative z-10 max-w-4xl mx-auto text-center text-white px-6 py-12"
       >
-        {/* Subtitle */}
-        {/* <motion.span
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="inline-block mb-6 text-brand-gold text-xs md:text-sm font-bold tracking-[0.4em] uppercase 
-          bg-black/30 backdrop-blur-md px-6 py-3 rounded-full border border-white/10"
-        >
-          Celebrating the Union of
-        </motion.span> */}
 
-        {/* Names */}
-        {/* <div className="mb-10 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif 
-          bg-black/25 backdrop-blur-md px-6 py-4 rounded-[2rem] border border-white/10
-          drop-shadow-[0_4px_15px_rgba(0,0,0,0.9)]">
-            MORadekemi
-          </h1>
-
-          <span className="text-5xl md:text-6xl lg:text-7xl text-brand-gold italic 
-          drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
-            &
-          </span>
-
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif 
-          bg-black/25 backdrop-blur-md px-6 py-4 rounded-[2rem] border border-white/10
-          drop-shadow-[0_4px_15px_rgba(0,0,0,0.9)]">
-            AYObaMI
-          </h1>
-        </div> */}
 
         {/* ⏳ Countdown */}
         <div className="flex gap-3 md:gap-6 justify-center mb-12">
@@ -168,29 +140,20 @@ export default function HeroSection() {
             { label: 'Secs', value: timeLeft.seconds },
           ].map((item, idx) => (
             <div key={idx} className="flex flex-col items-center">
-              <div className="w-14 h-16 md:w-20 md:h-24 bg-white/10 backdrop-blur-lg 
+              <div className="w-14 h-16 md:w-20 md:h-24 bg-black backdrop-blur-lg 
               rounded-2xl flex items-center justify-center border border-white/20 shadow-xl">
                 <span className="text-2xl md:text-4xl font-serif text-brand-gold">
                   {item.value.toString().padStart(2, '0')}
                 </span>
               </div>
-              <span className="mt-2 text-[9px] uppercase tracking-[0.2em] text-white/70">
+              <span className="mt-2 text-[9px] uppercase tracking-[0.2em] text-white/70 bg-black">
                 {item.label}
               </span>
             </div>
           ))}
         </div>
 
-        {/* CTA */}
-        {/* <a
-          href="#rsvp"
-          className="inline-block px-12 py-5 bg-brand-gold text-brand-deep rounded-full 
-          font-bold text-xs uppercase tracking-[0.3em] 
-          hover:bg-white hover:text-brand-deep hover:shadow-2xl 
-          transition-all duration-500 transform hover:-translate-y-1"
-        >
-          Save Our Date
-        </a> */}
+
       </motion.div>
     </section>
   )

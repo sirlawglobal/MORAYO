@@ -62,7 +62,7 @@ export default function SupportSection({ supportData }: { supportData: SupportDe
           </motion.div>
 
           <h2 className="text-4xl md:text-6xl font-serif text-brand-deep mb-6">
-            Registry & <span className="text-brand-lavender italic">Support</span>
+            Support
           </h2>
 
           <p className="text-gray-500 italic max-w-xl mx-auto text-sm md:text-base">
@@ -77,11 +77,10 @@ export default function SupportSection({ supportData }: { supportData: SupportDe
               <button
                 key={curr}
                 onClick={() => setCurrency(curr)}
-                className={`px-6 py-2 rounded-full text-xs tracking-widest transition ${
-                  currency === curr
-                    ? 'bg-brand-deep text-white shadow-lg'
-                    : 'text-brand-deep/60 hover:bg-white'
-                }`}
+                className={`px-6 py-2 rounded-full text-xs tracking-widest transition ${currency === curr
+                  ? 'bg-brand-deep text-white shadow-lg'
+                  : 'text-brand-deep/60 hover:bg-white'
+                  }`}
               >
                 {curr}
               </button>
